@@ -1,0 +1,17 @@
+name: Build and push image to docker
+
+on: push
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clona Repository
+        uses: actions/checkout@v2
+      - name: Builda Imagem
+        id: build
+        env:
+          COMMIT_NUMBER: git log --format="%h" -n 1
+        run: docker build .
+      - name: Imprime build id
+        run: echo "${{ steps.build.outputs }}"
