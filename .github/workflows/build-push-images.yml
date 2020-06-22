@@ -14,4 +14,4 @@ jobs:
           COMMIT_NUMBER: git log --format="%h" -n 1
         run: docker build .
       - name: Imprime build id
-        run: echo "${{ steps.build.outputs }}"
+        run: echo "${{ toJson(steps.build.outputs) }}"
