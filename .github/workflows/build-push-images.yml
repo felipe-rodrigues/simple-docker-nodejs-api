@@ -12,6 +12,4 @@ jobs:
         id: build
         env:
           COMMIT_NUMBER: git log --format="%h" -n 1
-        run: docker build .
-      - name: Imprime build id
-        run: echo "${{ toJson(steps.build.outputs) }}"
+        run: echo "-t docker.pkg.gitub.com/${{github.repository}}/teste:$COMMIT_NUMBER"
