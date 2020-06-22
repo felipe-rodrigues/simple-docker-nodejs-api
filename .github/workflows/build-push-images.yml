@@ -10,8 +10,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Builda Imagem
         id: build
-        env:
-          COMMIT_NUMBER: ${{ git log --format="%h" -n 1 }}
         run: |
           git log --format="%h" -n 1
       - name: Imprimi coisa
