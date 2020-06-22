@@ -12,4 +12,9 @@ jobs:
         id: build
         env:
           COMMIT_NUMBER: ${{ git log --format="%h" -n 1 }}
-        run: echo "-t docker.pkg.gitub.com/${{github.repository}}/teste:$COMMIT_NUMBER"
+        run: |
+          git log --format="%h" -n 1
+      - name: Imprimi coisa
+        run: echo "${{ steps.build.outputs }}"
+      - name: Imprimi asd
+        run: echo "${{ steps.build.output }}"
