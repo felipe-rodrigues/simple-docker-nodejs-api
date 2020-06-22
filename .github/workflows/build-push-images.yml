@@ -11,5 +11,5 @@ jobs:
       - name: Builda Imagem
         id: build
         env:
-          COMMIT_NUMBER: git log --format="%h" -n 1
+          COMMIT_NUMBER: ${{ git log --format="%h" -n 1 }}
         run: echo "-t docker.pkg.gitub.com/${{github.repository}}/teste:$COMMIT_NUMBER"
