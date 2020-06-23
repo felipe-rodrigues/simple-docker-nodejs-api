@@ -11,8 +11,8 @@ jobs:
       - name: Gera Id da Imagem
         id: generator
         run: echo '::set-output name=id::$(git log --format="%h" -n 1)'
-      - name: Builda Imagem
-        run: |
-          docker build -t docker.pkg.gitub.com/${{github.repository}}/node-api-test:${{ steps.generator.outputs.id }}
       - name: Imprimi coisa
         run: echo "${{ steps.generator.outputs.id }}"
+      - name: Builda Imagem
+        run: |
+          docker build -t docker.pkg.gitub.com/${{github.repository}}/node-api-test:${{ steps.generator.outputs.id }} .
