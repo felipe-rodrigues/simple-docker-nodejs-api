@@ -3,21 +3,35 @@ name: Build and push image to docker
 on: push
 
 jobs:
-  build-push-image:
+  push_to_registry:
+    name: Push Docker image to GitHub Packages
     runs-on: ubuntu-latest
     steps:
-      - name: Clona Repository
+      - name: Check out the repo
         uses: actions/checkout@v2
-      - name: Realiza Login no github
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
-      - name: Gera Id da Imagem
-        id: generator
-        run: echo '::set-output name=id::$(git log --format="%h" -n 1)'
-      - name: Imprime id gerado
-        run: echo "${{ steps.generator.outputs.id }}"
-      - name: Realiza Build da Imagem
-        run: |
-          docker build -t docker.pkg.gitub.com/${{github.repository}}/node-api-test:${{ steps.generator.outputs.id }} .
-      - name: Realiza push da Imagem
-        run: docker push docker.pkg.gitub.com/${{github.repository}}/node-api-test:${{ steps.generator.outputs.id }}
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: ${{ github.repository }}/node-api-test
+          tag_with_ref: true
+  # build-push-image:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Clona Repository
+  #       uses: actions/checkout@v2
+  #     - name: Realiza Login no github
+  #       run: |
+  #         echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+  #     - name: Gera Id da Imagem
+  #       id: generator
+  #       run: echo '::set-output name=id::$(git log --format="%h" -n 1)'
+  #     - name: Imprime id gerado
+  #       run: echo "${{ steps.generator.outputs.id }}"
+  #     - name: Realiza Build da Imagem
+  #       run: |
+  #         docker build -t docker.pkg.gitub.com/${{github.repository}}/node-api-test:${{ steps.generator.outputs.id }} .
+  #     - name: Realiza push da Imagem
+  #       run: docker push docker.pkg.gitub.com/${{github.repository}}/node-api-test:${{ steps.generator.outputs.id }}
