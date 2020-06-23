@@ -8,6 +8,9 @@ jobs:
     steps:
       - name: Clona Repository
         uses: actions/checkout@v2
+      - name: Realiza Login no github
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
       - name: Gera Id da Imagem
         id: generator
         run: echo '::set-output name=id::$(git log --format="%h" -n 1)'
