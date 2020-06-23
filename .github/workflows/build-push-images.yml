@@ -11,8 +11,6 @@ jobs:
       - name: Builda Imagem
         id: build
         run: |
-          git log --format="%h" -n 1
+          "##[set-output name=version;]$(git log --format="%h" -n 1)"
       - name: Imprimi coisa
-        run: echo "${{ steps.build.outputs }}"
-      - name: Imprimi asd
-        run: echo "${{ steps.build.output }}"
+        run: echo "${{ steps.build.outputs.version }}"
